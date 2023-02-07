@@ -1,15 +1,15 @@
 <template>
     <v-card class="cardLogin">
-        <v-card-title class="title">Pagina para simps de Rocio DTA</v-card-title>
+        <v-card-title class="title">Página para simps de Rocío DTA</v-card-title>
         <v-card-text>
             <v-row justify="center" align="center">
-                <v-col cols="4" justify="center" align-self="center">
+                <v-col cols="4" align-self="center">
                     <img src="../../assets/images/rocio.jpg" class="imgLogin">
                 </v-col>
-                <v-col cols="8" justify="center" align-self="center">
+                <v-col cols="8" align-self="center">
                     <v-form ref="formLogin">
-                <v-text-field label="Ingresa tu correo electronico" 
-                              placeholder="ejemplo: hola@outlook.com"
+                <v-text-field label="Correo Electronico" 
+                              placeholder="Correo Electronico"
                               v-model="correoElectronico"
                               :rules="validarCorreo"
                 />
@@ -61,11 +61,11 @@ export default {
                 await this.$auth.loginWith('local', {
                     data: sendData
                 }).then(async (res) => {
-                    console.log('respuesta del back', res)
+                    console.log('respuesta del back:', res)
                     if (res.data.error == null) {
                         this.$router.push('/dashboard')
                     }
-                }).catch((error)=> {
+                }).catch((error) => {
                     console.log('error: ', error)
                 })
             }else {
@@ -83,17 +83,14 @@ export default {
         width: 500px;
         height: 300px;
     }
-
     .imgLogin {
         width: 100%;
         height: 100%;
     }
-
     .btnLogin{
         background-color: #a150e4!important;
         color: rgb(255, 255, 255);
     }
-
     .title {
         font-size: 30px;
         justify-content: center;
