@@ -288,17 +288,17 @@ export default{
             }
                 const usuarioNuevo = {
                 id: this.datos._id,
-                name: this.datos.name,
-                lastname: this.datos.lastname,
+                name: this.nameUpdate,
+                lastname: this.lastnameUpdate,
                 email: this.datos.email,
-                password: this.datos.password
+                password: this.passwordUpdate
             }
-                await this.$axios.post('/user/updateusers', usuarioNuevo, config)
+                await this.$axios.post('/user/updateuser', usuarioNuevo, config)
                     .then((res) => {
                     console.log(res)
-                    if(res.data.message === 'Usuario actualizado'){
+                    if(res.data.message === 'Usuario Actualizado'){
                         this.loadUsers()
-                        this.openDialogErase = false
+                        this.openDialogUpdate = false
                     }
                     })
                     .catch((error) => {
