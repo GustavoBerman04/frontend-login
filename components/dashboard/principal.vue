@@ -61,6 +61,12 @@
                     placeholder="Password:" 
                     label="Password">
                     </v-text-field>
+                    <v-text-field 
+                    v-model="number"
+                    type="text" 
+                    placeholder="Number:" 
+                    label="Number">
+                    </v-text-field>
                 </v-form>
             </v-card-text>
             <v-card-actions style="width:100%; display:flex; flex-direction:column;">
@@ -165,10 +171,10 @@ export default{
                     value: 'email'
                 },
                 {
-                    text: 'Fecha de Creacion',
+                    text: 'Numero',
                     align: 'center',
                     sortable: true,
-                    value: 'date'
+                    value: 'number'
                 },
                 {
                     text: 'Acciones',
@@ -182,7 +188,7 @@ export default{
             lastname: '',
             email: '',
             password: '',
-            idEraseUser: '',
+            emailEraseUser: '',
             openDialogErase: false,
             newemail: '',
             admin: 'AdminGustaboConB',
@@ -190,6 +196,7 @@ export default{
             nameUpdate: '',
             lastnameUpdate: '',
             passwordUpdate: '',
+            numberUpdate: '',
             datos: {}
         }
     },
@@ -204,7 +211,7 @@ export default{
                     'Access-Control-Allow-Origin': '*'
                 }
             }
-            await this.$axios.get('/user/getallusers', config)
+            await this.$axios.get('/usuarios', config)
                 .then((res) => {
                     //console.log('res', res)
                     if(res.data.message === 'Usuarios'){
@@ -229,9 +236,10 @@ export default{
                 name: this.name,
                 lastname: this.lastname,
                 email: this.email,
-                password: this.password
+                password: this.password,
+                number: this.number
             }
-            await this.$axios.post('/user/register', usuarioNuevo, config)
+            await this.$axios.post('/registro', usuarioNuevo, config)
                 .then((res) => {
                     console.log('res',res)
                     if(res.data.error === null){
@@ -252,12 +260,12 @@ export default{
                 }
             }
                 const usuario = {
-                id: this.idEraseUser
+                email: this.emailEraseUser
             }
-                await this.$axios.post('/user/eraseusers', usuario, config)
+                await this.$axios.post('/delete', config)
                     .then((res) => {
                     console.log(res)
-                    if(res.data.message === 'Usuario Borrado'){
+                    if(res.data.alert === 'success'){
                         this.loadUsers()
                         this.openDialogErase = false
                     }
@@ -268,7 +276,7 @@ export default{
             }  
         },
         dialogUser(item) {
-            this.idEraseUser = item._id
+            this.emailEraseUser = item.email
             this.admin = item.name
             this.openDialogErase = true
         },
@@ -277,6 +285,7 @@ export default{
             this.nameUpdate = this.datos.name
             this.lastnameUpdate = this.datos.lastname
             this.passwordUpdate = this.datos.password
+
             this.openDialogUpdate = true
         },
         async actualizaUsuario(){
