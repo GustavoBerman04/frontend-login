@@ -122,10 +122,10 @@
                     label="LastName">
                     </v-text-field>
                     <v-text-field 
-                    v-model="passwordUpdate"
-                    type="password" 
-                    placeholder="Password:" 
-                    label="Password">
+                    v-model="numberUpdate"
+                    type="text" 
+                    placeholder="Number:" 
+                    label="Number">
                     </v-text-field>
                 </v-form>
             </v-card-text>
@@ -242,7 +242,7 @@ export default{
             await this.$axios.post('/registro', usuarioNuevo, config)
                 .then((res) => {
                     console.log('res',res)
-                    if(res.data.error === null){
+                    if(res.data.alert === 'success'){
                         this.openDialog = false
                         this.loadUsers()
                     }
@@ -262,7 +262,7 @@ export default{
                 const usuario = {
                 email: this.emailEraseUser
             }
-                await this.$axios.post('/delete', config)
+                await this.$axios.post('/delete', usuario, config)
                     .then((res) => {
                     console.log(res)
                     if(res.data.alert === 'success'){
@@ -288,6 +288,7 @@ export default{
 
             this.openDialogUpdate = true
         },
+
         async actualizaUsuario(){
             const config = {
                 headers: {
@@ -296,16 +297,15 @@ export default{
                 }
             }
                 const usuarioNuevo = {
-                id: this.datos._id,
+                email: this.datos.email,
                 name: this.nameUpdate,
                 lastname: this.lastnameUpdate,
-                email: this.datos.email,
-                password: this.passwordUpdate
+                number: this.numberUpdate
             }
-                await this.$axios.post('/user/updateuser', usuarioNuevo, config)
+                await this.$axios.post('/update', usuarioNuevo, config)
                     .then((res) => {
                     console.log(res)
-                    if(res.data.message === 'Usuario Actualizado'){
+                    if(res.data.alert === 'success'){
                         this.loadUsers()
                         this.openDialogUpdate = false
                     }
